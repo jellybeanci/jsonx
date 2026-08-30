@@ -1,11 +1,13 @@
 # jsonx
 
-A high-performance JSON serialization and deserialization library built on top of `jsoniter`, offering efficient and flexible JSON handling in Go.
+A JSON facade that routes each workload to the stronger backend: `jsoniter`
+for typed marshaling and Go 1.27 `encoding/json/v2` for dynamic marshaling and
+all unmarshaling.
 
 ## Installation
 
 ```sh
-go get github.com/GokselKUCUKSAHIN/jsonx
+go get github.com/jellybeanci/jsonx
 ```
 
 ## Usage
@@ -13,7 +15,7 @@ go get github.com/GokselKUCUKSAHIN/jsonx
 ### JSON Serialization and Deserialization
 
 ```go
-import "github.com/GokselKUCUKSAHIN/jsonx"
+import "github.com/jellybeanci/jsonx"
 
 // Struct to be serialized
 type User struct {
@@ -56,7 +58,26 @@ if err != nil {
 
 ## Features
 
-- **Fast JSON encoding/decoding** powered by `jsoniter`
+- **Typed marshaling** powered by jsoniter's standard-library-compatible config
+- **Dynamic marshaling** powered by `encoding/json/v2`
+- **Unmarshaling** powered by `encoding/json/v2`
 - **Convenient casting functions** for structured data
 - **Minimal performance overhead** with efficient memory usage
+
+## Backend routing
+
+| Operation | Top-level value | Backend |
+|---|---|---|
+| Marshal | `map[string]any` or `[]any` | `encoding/json/v2` |
+| Marshal | All other concrete types | jsoniter compatible config |
+| Unmarshal | All destination types | `encoding/json/v2` |
+
+Routing inspects only the top-level runtime type. An `any` variable containing
+a `map[string]any` or `[]any` is detected correctly. A typed struct stored in
+`any` remains a typed struct and uses jsoniter.
+
+Nested `any` fields and named map/slice aliases are intentionally not scanned.
+This keeps the typed hot path at a constant-cost type switch. JSON v2 semantics
+apply to routed dynamic containers; for example, nil maps and slices marshal as
+`{}` and `[]` instead of `null`.
 

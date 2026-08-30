@@ -18,15 +18,24 @@ func UnmarshalString(buf string, val any) error {
 }
 
 func Marshal(val any) ([]byte, error) {
-	return jiter.Marshal(val)
+	return marshal(val)
 }
 
 func MarshalString(val any) (string, error) {
-	res, err := jiter.Marshal(val)
+	res, err := marshal(val)
 	if err != nil {
 		return "", err
 	}
 	return stringutil.String(res), nil
+}
+
+func marshal(val any) ([]byte, error) {
+	switch val.(type) {
+	case map[string]any, []any:
+		return jsonv2.Marshal(val)
+	default:
+		return jiter.Marshal(val)
+	}
 }
 
 func Cast[Model any](buf []byte, err error) (*Model, error) {
