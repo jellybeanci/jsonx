@@ -1,24 +1,28 @@
 package jsonx
 
 import (
+	jsonv2 "encoding/json/v2"
+
 	stringutil "github.com/GokselKUCUKSAHIN/jsonx/internal/string-util"
 	jsoniter "github.com/json-iterator/go"
 )
 
+var jiter = jsoniter.ConfigCompatibleWithStandardLibrary
+
 func Unmarshal(buf []byte, val any) error {
-	return jsoniter.Unmarshal(buf, val)
+	return jsonv2.Unmarshal(buf, val)
 }
 
 func UnmarshalString(buf string, val any) error {
-	return jsoniter.Unmarshal(stringutil.Byte(buf), val)
+	return jsonv2.Unmarshal(stringutil.Byte(buf), val)
 }
 
 func Marshal(val any) ([]byte, error) {
-	return jsoniter.Marshal(val)
+	return jiter.Marshal(val)
 }
 
 func MarshalString(val any) (string, error) {
-	res, err := jsoniter.Marshal(val)
+	res, err := jiter.Marshal(val)
 	if err != nil {
 		return "", err
 	}
