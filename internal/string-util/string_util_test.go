@@ -1,10 +1,11 @@
 package stringutil_test
 
 import (
-	stringutil "github.com/GokselKUCUKSAHIN/jsonx/internal/string-util"
-	"github.com/stretchr/testify/assert"
 	"reflect"
 	"testing"
+
+	stringutil "github.com/jellybeanci/jsonx/internal/string-util"
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_Byte(t *testing.T) {

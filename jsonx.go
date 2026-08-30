@@ -3,7 +3,7 @@ package jsonx
 import (
 	jsonv2 "encoding/json/v2"
 
-	stringutil "github.com/GokselKUCUKSAHIN/jsonx/internal/string-util"
+	stringutil "github.com/jellybeanci/jsonx/internal/string-util"
 	jsoniter "github.com/json-iterator/go"
 )
 

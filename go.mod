@@ -3,7 +3,6 @@ module github.com/jellybeanci/jsonx
 go 1.27
 
 require (
-	github.com/GokselKUCUKSAHIN/jsonx v1.1.0
 	github.com/json-iterator/go v1.1.12
 	github.com/stretchr/testify v1.12.1
 )
